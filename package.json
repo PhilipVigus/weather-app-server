@@ -11,7 +11,8 @@
     "dev": "NODE_ENV=development npm-run-all build server",
     "prod": "NODE_ENV=production npm-run-all build server",
     "watch:dev": "nodemon",
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@babel/cli": "^7.10.5",
@@ -24,14 +25,19 @@
     "morgan": "~1.9.1",
     "nodemon": "^2.0.4",
     "npm-run-all": "^4.1.5",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "supertest": "^4.0.2"
   },
   "babel": {
     "presets": [
-      "@babel/preset-env"
-    ],
-    "ignore": [
-      "./server/tests"
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
     ]
   },
   "nodemonConfig": {
@@ -48,8 +54,8 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "transformIgnorePatterns": [
-      "./server/tests"
+    "modulePathIgnorePatterns": [
+      "./dist-server"
     ]
   }
 }
