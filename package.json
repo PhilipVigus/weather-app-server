@@ -29,6 +29,9 @@
   "babel": {
     "presets": [
       "@babel/preset-env"
+    ],
+    "ignore": [
+      "./server/tests"
     ]
   },
   "nodemonConfig": {
@@ -44,6 +47,9 @@
     ]
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "transformIgnorePatterns": [
+      "./server/tests"
+    ]
   }
 }
