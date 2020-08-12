@@ -2,18 +2,16 @@
 import app from "../app";
 import debugLib from "debug";
 import http from "http";
-const debug = debugLib("your-project-name:server");
+const debug = debugLib("weather-app:server");
 
 const normalisePort = (val) => {
   const port = parseInt(val, 10);
 
   if (isNaN(port)) {
-    // named pipe
     return val;
   }
 
   if (port >= 0) {
-    // port number
     return port;
   }
 
@@ -30,7 +28,6 @@ const onError = (error) => {
 
   const bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
 
-  // handle specific listen errors with friendly messages
   switch (error.code) {
     case "EACCES":
       console.error(bind + " requires elevated privileges");
