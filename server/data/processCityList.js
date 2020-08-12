@@ -61,5 +61,5 @@ for (let i = 0; i < sortedData.length; i += 1) {
 }
 
 for (let [key, value] of Object.entries(sortedCityArrays)) {
-  fs.writeFileSync(`./letter-${key}.json`, JSON.stringify(value));
+  fs.writeFileSync(`./server/data/letter-${key}.json`, JSON.stringify(value));
 }
