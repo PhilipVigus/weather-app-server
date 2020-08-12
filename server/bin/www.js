@@ -20,7 +20,7 @@ const normalisePort = (val) => {
   return false;
 };
 
-const port = normalisePort(process.env.PORT || "3000");
+const port = normalisePort(process.env.PORT || "5000");
 app.set("port", port);
 
 const onError = (error) => {
