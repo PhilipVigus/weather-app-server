@@ -1,11 +1,12 @@
 import express from "express";
-import path from "path";
+import cors from "cors";
 import logger from "morgan";
 import citiesRouter from "./routes/cities";
 
 const app = express();
 
 app.use(logger("dev"));
+this._app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/cities", citiesRouter);
