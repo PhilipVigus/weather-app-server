@@ -13,7 +13,7 @@ const getCountryName = (countryCode) => {
   return countryCode;
 };
 
-const filteredData = cityData.map((city) => {
+const requiredDataFields = cityData.map((city) => {
   return {
     id: city.id,
     name: city.name,
@@ -22,7 +22,7 @@ const filteredData = cityData.map((city) => {
   };
 });
 
-const sortedData = filteredData.sort((a, b) => {
+const sortedData = requiredDataFields.sort((a, b) => {
   if (a.name < b.name) {
     return -1;
   } else {
@@ -30,29 +30,36 @@ const sortedData = filteredData.sort((a, b) => {
   }
 });
 
-let initialLetter = sortedData[0].name.toLowerCase().charAt(0);
-let citiesObject = {};
-let currentLetterArray = [];
+let currentStartingLetter = sortedData[0].name.toLowerCase().charAt(0);
+let sortedCityArrays = {};
+let currentCityArray = [];
+
+const storeCurrentArray = () => {
+  if (sortedCityArrays[currentStartingLetter]) {
+    sortedCityArrays[currentStartingLetter].concat(currentCityArray);
+  } else {
+    sortedCityArrays[currentStartingLetter] = currentCityArray;
+  }
+};
+
+const startNewLetter = (currentPosition) => {
+  currentStartingLetter = sortedData[currentPosition].name
+    .toLowerCase()
+    .charAt(0);
+  currentCityArray = [];
+  currentCityArray.push(sortedData[currentPosition]);
+};
 
 for (let i = 0; i < sortedData.length; i += 1) {
-  if (sortedData[i].name.toLowerCase().charAt(0) === initialLetter) {
-    currentLetterArray.push(sortedData[i]);
+  const cityStartingLetter = sortedData[i].name.toLowerCase().charAt(0);
+  if (cityStartingLetter === currentStartingLetter) {
+    currentCityArray.push(sortedData[i]);
   } else {
-    if (citiesObject[initialLetter]) {
-      citiesObject[initialLetter].concat(currentLetterArray);
-    } else {
-      citiesObject[initialLetter] = currentLetterArray;
-    }
-
-    initialLetter = sortedData[i].name.toLowerCase().charAt(0);
-    currentLetterArray = [];
-    currentLetterArray.push(sortedData[i]);
+    storeCurrentArray();
+    startNewLetter(i);
   }
 }
 
-for (let [key, value] of Object.entries(citiesObject)) {
-  fs.writeFileSync(
-    `./server/data/processed-cities-by-letter/letter-${key}.json`,
-    JSON.stringify(value)
-  );
+for (let [key, value] of Object.entries(sortedCityArrays)) {
+  fs.writeFileSync(`./letter-${key}.json`, JSON.stringify(value));
 }
