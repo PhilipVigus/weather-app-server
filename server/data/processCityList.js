@@ -22,11 +22,14 @@ const getStateString = (state) => {
 };
 
 const requiredDataFields = cityData.map((city) => {
+  const stateString = getStateString(city.state);
+  const countryString = getCountryName(city.country);
+  const latLonString = `(${parseFloat(city.coord.lon).toFixed(
+    2
+  )}&#176;, ${parseFloat(city.coord.lat).toFixed(2)}&#176;)`;
   return {
     id: city.id,
-    name: `${city.name}${getStateString(city.state)}, ${getCountryName(
-      city.country
-    )}`,
+    name: `${city.name}${stateString}, ${countryString} ${latLonString}`,
   };
 });
 
