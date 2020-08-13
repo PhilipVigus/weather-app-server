@@ -26,7 +26,7 @@ const requiredDataFields = cityData.map((city) => {
   const countryString = getCountryName(city.country);
   const latLonString = `(${parseFloat(city.coord.lon).toFixed(
     2
-  )}&#176;, ${parseFloat(city.coord.lat).toFixed(2)}&#176;)`;
+  )}°, ${parseFloat(city.coord.lat).toFixed(2)}°)`;
   return {
     id: city.id,
     name: `${city.name}${stateString}, ${countryString} ${latLonString}`,
