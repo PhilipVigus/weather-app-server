@@ -13,12 +13,20 @@ const getCountryName = (countryCode) => {
   return countryCode;
 };
 
+const getStateString = (state) => {
+  if (state !== "") {
+    return `, ${state}`;
+  } else {
+    return "";
+  }
+};
+
 const requiredDataFields = cityData.map((city) => {
   return {
     id: city.id,
-    name: city.name,
-    state: city.state,
-    country: getCountryName(city.country),
+    name: `${city.name}${getStateString(city.state)}, ${getCountryName(
+      city.country
+    )}`,
   };
 });
 
@@ -61,5 +69,5 @@ for (let i = 0; i < sortedData.length; i += 1) {
 }
 
 for (let [key, value] of Object.entries(sortedCityArrays)) {
-  fs.writeFileSync(`./server/data/letter-${key}.json`, JSON.stringify(value));
+  fs.writeFileSync(`./letter-${key}.json`, JSON.stringify(value));
 }
