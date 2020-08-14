@@ -9,7 +9,7 @@ router.get("/:id", (req, res, next) => {
   } else {
     res
       .status(422)
-      .send({ error: "No cities found starting with that letter" });
+      .send({ error: "No locations found starting with that letter" });
   }
 });
 
