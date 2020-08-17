@@ -23,7 +23,9 @@ router.get("/names/:id", (req, res, next) => {
     return location.id === parseInt(req.params.id);
   });
 
-  res.status(200).send({ name: location.name });
+  location
+    ? res.status(200).send({ name: location.name })
+    : res.status(422).send({ error: "location id not found" });
 });
 
 export default router;

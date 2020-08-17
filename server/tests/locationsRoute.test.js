@@ -24,7 +24,17 @@ describe("locations route", () => {
   describe("fetching a single location name for a given id", () => {
     it("returns status 200 when you specify a legitimate id", async () => {
       const res = await request(app).get("/locations/names/225284");
-      //expect(res.status).toBe(200);
+      expect(res.status).toBe(200);
+    });
+
+    it("returns status 422 when the id is invalid", async () => {
+      const res = await request(app).get("/locations/names/abc");
+      expect(res.status).toBe(422);
+    });
+
+    it("returns an error when the id is invalid", async () => {
+      const res = await request(app).get("/locations/names/abc");
+      expect(res.body).toEqual({ error: "location id not found" });
     });
 
     it("returns the name for a given id", async () => {
