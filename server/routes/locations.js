@@ -16,7 +16,14 @@ router.get("/:letter", (req, res, next) => {
 });
 
 router.get("/names/:id", (req, res, next) => {
-  res.status(200).send();
+  const data = fs.readFileSync(`./server/data/sortedFullData.json`);
+  const dataAsJSON = JSON.parse(data);
+
+  const location = dataAsJSON.find((location) => {
+    return location.id === parseInt(req.params.id);
+  });
+
+  res.status(200).send({ name: location.name });
 });
 
 export default router;

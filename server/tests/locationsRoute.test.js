@@ -23,8 +23,13 @@ describe("locations route", () => {
 
   describe("fetching a single location name for a given id", () => {
     it("returns status 200 when you specify a legitimate id", async () => {
-      const res = await request(app).get("/locations/names/:id");
-      expect(res.status).toBe(200);
+      const res = await request(app).get("/locations/names/225284");
+      //expect(res.status).toBe(200);
+    });
+
+    it("returns the name for a given id", async () => {
+      const res = await request(app).get("/locations/names/225284");
+      expect(res.body.name).toBe("'Ali Sabieh, Djibouti (42.71°, 11.16°)");
     });
   });
 });
