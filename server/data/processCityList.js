@@ -41,6 +41,8 @@ const sortedData = requiredDataFields.sort((a, b) => {
   }
 });
 
+fs.writeFileSync(`./sortedFullData.json`, JSON.stringify(sortedData));
+
 let currentStartingLetter = sortedData[0].name.toLowerCase().charAt(0);
 let sortedCityArrays = {};
 let currentCityArray = [];
