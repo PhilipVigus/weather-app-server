@@ -19,7 +19,7 @@ const getStateString = (state) => {
 };
 
 const newProcessCityList = (cityList) => {
-  const result = cityList.map((city) => {
+  const unsortedList = cityList.map((city) => {
     return {
       id: city.id,
       name: `${city.name}${getStateString(city.state)}, ${getCountryName(
@@ -29,7 +29,11 @@ const newProcessCityList = (cityList) => {
     };
   });
 
-  return result;
+  const sortedList = unsortedList.sort((firstCity, secondCity) => {
+    return firstCity.name > secondCity.name ? -1 : 1;
+  });
+
+  return sortedList;
 };
 
 export default newProcessCityList;
