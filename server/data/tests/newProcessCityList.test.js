@@ -70,4 +70,120 @@ describe("newProcessCityList", () => {
       },
     ]);
   });
+
+  it("filters out locations that have the same name and are too close to eachother", () => {
+    const testData = [
+      {
+        id: 843,
+        name: "London",
+        state: "",
+        country: "UK",
+        coord: {
+          lon: 47,
+          lat: 35,
+        },
+      },
+      {
+        id: 833,
+        name: "Ḩeşār-e Sefīd",
+        state: "",
+        country: "IR",
+        coord: {
+          lon: 47.159401,
+          lat: 34.330502,
+        },
+      },
+      {
+        id: 853,
+        name: "London",
+        state: "",
+        country: "UK",
+        coord: {
+          lon: 47.5,
+          lat: 34.5,
+        },
+      },
+    ];
+
+    expect(newProcessCityList(testData)).toEqual([
+      {
+        id: 833,
+        name: "Ḩeşār-e Sefīd, Iran, Islamic Republic Of",
+        coord: {
+          lon: 47.159401,
+          lat: 34.330502,
+        },
+      },
+      {
+        id: 853,
+        name: "London, UK",
+        coord: {
+          lon: 47.5,
+          lat: 34.5,
+        },
+      },
+    ]);
+  });
+
+  it("doesn't filter locations that are too far apart", () => {
+    const testData = [
+      {
+        id: 843,
+        name: "London",
+        state: "",
+        country: "UK",
+        coord: {
+          lon: 47,
+          lat: 35,
+        },
+      },
+      {
+        id: 833,
+        name: "Ḩeşār-e Sefīd",
+        state: "",
+        country: "IR",
+        coord: {
+          lon: 47.159401,
+          lat: 34.330502,
+        },
+      },
+      {
+        id: 853,
+        name: "London",
+        state: "",
+        country: "UK",
+        coord: {
+          lon: 47.6,
+          lat: 34.6,
+        },
+      },
+    ];
+
+    expect(newProcessCityList(testData)).toEqual([
+      {
+        id: 833,
+        name: "Ḩeşār-e Sefīd, Iran, Islamic Republic Of",
+        coord: {
+          lon: 47.159401,
+          lat: 34.330502,
+        },
+      },
+      {
+        id: 843,
+        name: "London, UK",
+        coord: {
+          lon: 47,
+          lat: 35,
+        },
+      },
+      {
+        id: 853,
+        name: "London, UK",
+        coord: {
+          lon: 47.6,
+          lat: 34.6,
+        },
+      },
+    ]);
+  });
 });

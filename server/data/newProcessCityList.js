@@ -33,7 +33,29 @@ const newProcessCityList = (cityList) => {
     return firstCity.name > secondCity.name ? -1 : 1;
   });
 
-  return sortedList;
+  const filteredList = sortedList.filter((location, index) => {
+    if (index === sortedList.length - 1) {
+      return true;
+    }
+
+    const sameName = location.name === sortedList[index + 1].name;
+
+    const latitudeDifference = Math.abs(
+      location.coord.lat - sortedList[index + 1].coord.lat
+    );
+
+    const longitudeDifference = Math.abs(
+      location.coord.lon - sortedList[index + 1].coord.lon
+    );
+
+    if (sameName && latitudeDifference <= 0.5 && longitudeDifference <= 0.5) {
+      return false;
+    } else {
+      return true;
+    }
+  });
+
+  return filteredList;
 };
 
 export default newProcessCityList;
