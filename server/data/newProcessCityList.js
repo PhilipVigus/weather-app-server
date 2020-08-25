@@ -48,14 +48,36 @@ const newProcessCityList = (cityList) => {
       location.coord.lon - sortedList[index + 1].coord.lon
     );
 
-    if (sameName && latitudeDifference <= 0.5 && longitudeDifference <= 0.5) {
+    if (sameName && latitudeDifference <= 1 && longitudeDifference <= 1) {
       return false;
     } else {
       return true;
     }
   });
 
-  return filteredList;
+  let listWithUnambiguousNames = [...filteredList];
+
+  filteredList.forEach((location) => {
+    const locationName = location.name;
+    const locationsWithName = filteredList.filter((l) => {
+      return l.name === locationName;
+    });
+
+    if (locationsWithName.length > 1) {
+      listWithUnambiguousNames = listWithUnambiguousNames.map((location) => {
+        if (location.name !== locationName) {
+          return location;
+        } else {
+          location.name = `${location.name} (${location.coord.lat}°, ${location.coord.lon}°)`;
+          return location;
+        }
+      });
+    }
+  });
+
+  console.log(listWithUnambiguousNames);
+
+  return listWithUnambiguousNames;
 };
 
 export default newProcessCityList;
