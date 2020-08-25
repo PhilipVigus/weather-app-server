@@ -75,9 +75,14 @@ const newProcessCityList = (cityList) => {
     }
   });
 
-  console.log(listWithUnambiguousNames);
+  const finalList = listWithUnambiguousNames.map((city) => {
+    return {
+      id: city.id,
+      name: city.name,
+    };
+  });
 
-  return listWithUnambiguousNames;
+  return finalList;
 };
 
 export default newProcessCityList;

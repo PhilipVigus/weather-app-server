@@ -19,10 +19,6 @@ describe("newProcessCityList", () => {
       {
         id: 833,
         name: "Ḩeşār-e Sefīd, Iran, Islamic Republic Of",
-        coord: {
-          lon: 47.159401,
-          lat: 34.330502,
-        },
       },
     ]);
   });
@@ -55,18 +51,10 @@ describe("newProcessCityList", () => {
       {
         id: 833,
         name: "Ḩeşār-e Sefīd, Iran, Islamic Republic Of",
-        coord: {
-          lon: 47.159401,
-          lat: 34.330502,
-        },
       },
       {
         id: 843,
         name: "London, UK",
-        coord: {
-          lon: 47.159401,
-          lat: 34.330502,
-        },
       },
     ]);
   });
@@ -109,18 +97,10 @@ describe("newProcessCityList", () => {
       {
         id: 833,
         name: "Ḩeşār-e Sefīd, Iran, Islamic Republic Of",
-        coord: {
-          lon: 47.159401,
-          lat: 34.330502,
-        },
       },
       {
         id: 853,
         name: "London, UK",
-        coord: {
-          lon: 47.5,
-          lat: 34.5,
-        },
       },
     ]);
   });
@@ -163,26 +143,14 @@ describe("newProcessCityList", () => {
       {
         id: 833,
         name: "Ḩeşār-e Sefīd, Iran, Islamic Republic Of",
-        coord: {
-          lon: 47.159401,
-          lat: 34.330502,
-        },
       },
       {
         id: 843,
         name: "London, UK (35°, 47°)",
-        coord: {
-          lon: 47,
-          lat: 35,
-        },
       },
       {
         id: 853,
         name: "London, UK (34.6°, 48.1°)",
-        coord: {
-          lon: 48.1,
-          lat: 34.6,
-        },
       },
     ]);
   });
@@ -235,26 +203,14 @@ describe("newProcessCityList", () => {
       {
         id: 833,
         name: "Ḩeşār-e Sefīd, Iran, Islamic Republic Of",
-        coord: {
-          lon: 47.159401,
-          lat: 34.330502,
-        },
       },
       {
         id: 853,
         name: "London, UK (34.6°, 47.6°)",
-        coord: {
-          lon: 47.6,
-          lat: 34.6,
-        },
       },
       {
         id: 863,
         name: "London, UK (34.6°, 49°)",
-        coord: {
-          lon: 49,
-          lat: 34.6,
-        },
       },
     ]);
   });
