@@ -6,6 +6,8 @@ dotenv.config();
 class Database {
   static pool;
 
+  constructor() {}
+
   static open() {
     if (process.env.NODE_ENV === "production") {
       Database.pool = new Pool({

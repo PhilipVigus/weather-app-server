@@ -2,6 +2,8 @@
 import app from "../app";
 import debugLib from "debug";
 import http from "http";
+import Database from "../database/Database";
+
 const debug = debugLib("weather-app:server");
 
 const normalisePort = (val) => {
@@ -48,7 +50,13 @@ const onListening = () => {
   debug("Listening on " + bind);
 };
 
+const onClosing = async () => {
+  await Database.close();
+};
+
+Database.open();
 const server = http.createServer(app);
 server.listen(port);
 server.on("error", onError);
 server.on("listening", onListening);
+server.on("close", onClosing);
