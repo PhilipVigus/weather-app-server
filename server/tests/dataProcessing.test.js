@@ -13,10 +13,31 @@ describe("processLocationList", () => {
     const expectedResult = [
       {
         id: 833,
-        name: "London, United Kingdom (34.33°, 47.15°)",
+        name: "London, United Kingdom (34.33°, 47.16°)",
       },
     ];
     processLocationList("./server/tests/fixtures/singleLocation.json");
+
+    const data = fs.readFileSync("./server/tests/letter-l.json");
+    expect(JSON.parse(data)).toEqual(expectedResult);
+
+    fs.unlinkSync("./server/tests/letter-l.json");
+  });
+
+  it("outputs a file with the right content for a several locations with the same initial letter and country", () => {
+    const expectedResult = [
+      {
+        id: 833,
+        name: "London, United Kingdom (34.33°, 47.15°)",
+      },
+      {
+        id: 1234,
+        name: "Loughborough, United Kingdom (12.20°, 28.42°)",
+      },
+    ];
+    processLocationList(
+      "./server/tests/fixtures/severalLocationsWithSameInitial.json"
+    );
 
     const data = fs.readFileSync("./server/tests/letter-l.json");
     expect(JSON.parse(data)).toEqual(expectedResult);

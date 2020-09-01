@@ -8,15 +8,25 @@ const processLocationList = (inputFilePath) => {
   const processedLocations = parsedData.map((location) => {
     return {
       id: location.id,
-      name: "London, United Kingdom (34.33°, 47.15°)",
+      name: `${location.name}, United Kingdom (${location.coord.lat.toFixed(
+        2
+      )}°, ${location.coord.lon.toFixed(2)}°)`,
     };
   });
 
   console.log(processedLocations);
 
+  const sortedLocations = processedLocations.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
+
   fs.writeFileSync(
     "./server/tests/letter-l.json",
-    JSON.stringify(processedLocations),
+    JSON.stringify(sortedLocations),
     (err) => {
       if (err) {
         throw err;
