@@ -1,32 +1,36 @@
 import fs from "fs";
 
-const processLocationList = (inputFilePath) => {
-  const countryCodeData = fs.readFileSync("./server/data/countryCodes.json");
-  const parsedCountryCodeData = JSON.parse(countryCodeData);
+const countryCodeData = fs.readFileSync("./server/data/countryCodes.json");
+const parsedCountryCodeData = JSON.parse(countryCodeData);
 
-  const getCountryNameFromCode = (countryCode) => {
-    for (let i = 0; i < parsedCountryCodeData.length; i += 1) {
-      if (parsedCountryCodeData[i].code === countryCode) {
-        return parsedCountryCodeData[i].name;
-      }
+const getCountryNameFromCode = (countryCode) => {
+  for (let i = 0; i < parsedCountryCodeData.length; i += 1) {
+    if (parsedCountryCodeData[i].code === countryCode) {
+      return parsedCountryCodeData[i].name;
     }
+  }
 
-    return countryCode;
-  };
+  return countryCode;
+};
 
+const getLatLonString = (coords) => {
+  const latitude = coords.lat.toFixed(2);
+  const longitude = coords.lon.toFixed(2);
+  return `(${latitude}°, ${longitude}°)`;
+};
+
+const processLocationList = (inputFilePath) => {
   const locationData = fs.readFileSync(inputFilePath);
   const parsedLocationData = JSON.parse(locationData);
 
   const processedLocations = parsedLocationData.map((location) => {
     const stateString = location.state ? `${location.state}, ` : "";
-    const latAndLonString = `(${location.coord.lat.toFixed(
-      2
-    )}°, ${location.coord.lon.toFixed(2)}°)`;
+    const latLonString = getLatLonString(location.coord);
+    const countryName = getCountryNameFromCode(location.country);
+
     return {
       id: location.id,
-      name: `${location.name}, ${stateString}${getCountryNameFromCode(
-        location.country
-      )} ${latAndLonString}`,
+      name: `${location.name}, ${stateString}${countryName} ${latLonString}`,
     };
   });
 
