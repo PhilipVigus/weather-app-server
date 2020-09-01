@@ -18,13 +18,15 @@ const processLocationList = (inputFilePath) => {
   const parsedLocationData = JSON.parse(locationData);
 
   const processedLocations = parsedLocationData.map((location) => {
+    const stateString = location.state ? `${location.state}, ` : "";
+    const latAndLonString = `(${location.coord.lat.toFixed(
+      2
+    )}°, ${location.coord.lon.toFixed(2)}°)`;
     return {
       id: location.id,
-      name: `${location.name}, ${getCountryNameFromCode(
+      name: `${location.name}, ${stateString}${getCountryNameFromCode(
         location.country
-      )} (${location.coord.lat.toFixed(2)}°, ${location.coord.lon.toFixed(
-        2
-      )}°)`,
+      )} ${latAndLonString}`,
     };
   });
 

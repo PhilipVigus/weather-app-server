@@ -67,4 +67,19 @@ describe("processLocationList", () => {
 
     fs.unlinkSync("./server/tests/letter-l.json");
   });
+
+  it("outputs a file with the right content for location with states", () => {
+    const expectedResult = [
+      {
+        id: 222,
+        name: "Los Angeles, CA, United States (26.33°, 56.41°)",
+      },
+    ];
+    processLocationList("./server/tests/fixtures/locationWithState.json");
+
+    const data = fs.readFileSync("./server/tests/letter-l.json");
+    expect(JSON.parse(data)).toEqual(expectedResult);
+
+    fs.unlinkSync("./server/tests/letter-l.json");
+  });
 });
