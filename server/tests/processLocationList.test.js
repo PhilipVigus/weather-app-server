@@ -4,7 +4,10 @@ import e from "express";
 
 describe("processLocationList", () => {
   it("outputs a file with the right filename", () => {
-    processLocationList("./server/tests/fixtures/singleLocation.json");
+    processLocationList(
+      "./server/tests/fixtures/singleLocation.json",
+      "./server/tests/"
+    );
     expect(fs.existsSync("./server/tests/letter-l.json")).toBe(true);
     fs.unlinkSync("./server/tests/letter-l.json");
   });
@@ -16,7 +19,10 @@ describe("processLocationList", () => {
         name: "London, United Kingdom (34.33°, 47.16°)",
       },
     ];
-    processLocationList("./server/tests/fixtures/singleLocation.json");
+    processLocationList(
+      "./server/tests/fixtures/singleLocation.json",
+      "./server/tests/"
+    );
 
     const data = fs.readFileSync("./server/tests/letter-l.json");
     expect(JSON.parse(data)).toEqual(expectedResult);
@@ -35,7 +41,10 @@ describe("processLocationList", () => {
         name: "Loughborough, United Kingdom (12.20°, 28.42°)",
       },
     ];
-    processLocationList("./server/tests/fixtures/sameInitialAndCountry.json");
+    processLocationList(
+      "./server/tests/fixtures/sameInitialAndCountry.json",
+      "./server/tests/"
+    );
 
     const data = fs.readFileSync("./server/tests/letter-l.json");
     expect(JSON.parse(data)).toEqual(expectedResult);
@@ -59,7 +68,8 @@ describe("processLocationList", () => {
       },
     ];
     processLocationList(
-      "./server/tests/fixtures/sameInitialDifferentCountries.json"
+      "./server/tests/fixtures/sameInitialDifferentCountries.json",
+      "./server/tests/"
     );
 
     const data = fs.readFileSync("./server/tests/letter-l.json");
@@ -75,7 +85,10 @@ describe("processLocationList", () => {
         name: "Los Angeles, CA, United States (26.33°, 56.41°)",
       },
     ];
-    processLocationList("./server/tests/fixtures/locationWithState.json");
+    processLocationList(
+      "./server/tests/fixtures/locationWithState.json",
+      "./server/tests/"
+    );
 
     const data = fs.readFileSync("./server/tests/letter-l.json");
     expect(JSON.parse(data)).toEqual(expectedResult);
@@ -102,7 +115,10 @@ describe("processLocationList", () => {
       },
     ];
 
-    processLocationList("./server/tests/fixtures/differentInitials.json");
+    processLocationList(
+      "./server/tests/fixtures/differentInitials.json",
+      "./server/tests/"
+    );
     const lData = fs.readFileSync("./server/tests/letter-l.json");
     fs.unlinkSync("./server/tests/letter-l.json");
 

@@ -48,7 +48,7 @@ const getLocationsByInitialLetter = (locations) => {
   return locationsByInitialLetter;
 };
 
-const writeLocationsToFiles = (locationsByLetter) => {
+const writeLocationsToFiles = (locationsByLetter, outputFilePath) => {
   for (const [initialLetter, locations] of Object.entries(locationsByLetter)) {
     const sortedLocations = locations.sort((a, b) => {
       if (a.name < b.name) {
@@ -59,7 +59,7 @@ const writeLocationsToFiles = (locationsByLetter) => {
     });
 
     fs.writeFileSync(
-      `./server/tests/letter-${initialLetter}.json`,
+      `${outputFilePath}letter-${initialLetter}.json`,
       JSON.stringify(sortedLocations),
       (err) => {
         if (err) {
@@ -72,7 +72,7 @@ const writeLocationsToFiles = (locationsByLetter) => {
   }
 };
 
-const processLocationList = (inputFilePath) => {
+const processLocationList = (inputFilePath, outputFilePath) => {
   const locationData = fs.readFileSync(inputFilePath);
   const parsedLocationData = JSON.parse(locationData);
 
@@ -84,7 +84,7 @@ const processLocationList = (inputFilePath) => {
     processedLocations
   );
 
-  writeLocationsToFiles(locationsByInitialLetter);
+  writeLocationsToFiles(locationsByInitialLetter, outputFilePath);
 };
 
 export default processLocationList;
