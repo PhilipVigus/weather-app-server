@@ -39,7 +39,7 @@ describe("locations route", () => {
 
     it("returns the name for a given id", async () => {
       const res = await request(app).get("/locations/names/225284");
-      expect(res.body.name).toBe("'Ali Sabieh, Djibouti (42.71°, 11.16°)");
+      expect(res.body.name).toBe("'Ali Sabieh, Djibouti (11.16°, 42.71°)");
     });
   });
 });
