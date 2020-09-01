@@ -82,4 +82,35 @@ describe("processLocationList", () => {
 
     fs.unlinkSync("./server/tests/letter-l.json");
   });
+
+  it("outputs multiple files when locations start with different initials", () => {
+    const expectedResultForLFile = [
+      {
+        id: 222,
+        name: "Lisbon, Portugal (26.33°, 56.41°)",
+      },
+      {
+        id: 833,
+        name: "London, United Kingdom (34.33°, 47.15°)",
+      },
+    ];
+
+    const expectedResultForSFile = [
+      {
+        id: 1234,
+        name: "Slough, United Kingdom (12.20°, 28.42°)",
+      },
+    ];
+
+    processLocationList("./server/tests/fixtures/differentInitials.json");
+    const lData = fs.readFileSync("./server/tests/letter-l.json");
+    fs.unlinkSync("./server/tests/letter-l.json");
+
+    expect(JSON.parse(lData)).toEqual(expectedResultForLFile);
+
+    const sData = fs.readFileSync("./server/tests/letter-s.json");
+    fs.unlinkSync("./server/tests/letter-s.json");
+
+    expect(JSON.parse(sData)).toEqual(expectedResultForSFile);
+  });
 });

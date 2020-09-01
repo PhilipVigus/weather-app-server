@@ -19,11 +19,8 @@ const getLatLonString = (coords) => {
   return `(${latitude}°, ${longitude}°)`;
 };
 
-const processLocationList = (inputFilePath) => {
-  const locationData = fs.readFileSync(inputFilePath);
-  const parsedLocationData = JSON.parse(locationData);
-
-  const processedLocations = parsedLocationData.map((location) => {
+const getLocationsWithProcessedProperties = (locations) => {
+  return locations.map((location) => {
     const stateString = location.state ? `${location.state}, ` : "";
     const latLonString = getLatLonString(location.coord);
     const countryName = getCountryNameFromCode(location.country);
@@ -33,26 +30,61 @@ const processLocationList = (inputFilePath) => {
       name: `${location.name}, ${stateString}${countryName} ${latLonString}`,
     };
   });
+};
 
-  const sortedLocations = processedLocations.sort((a, b) => {
-    if (a.name < b.name) {
-      return -1;
+const getLocationsByInitialLetter = (locations) => {
+  const locationsByInitialLetter = {};
+
+  locations.forEach((location) => {
+    const initialLetter = location.name.charAt(0).toLowerCase();
+
+    if (locationsByInitialLetter[initialLetter]) {
+      locationsByInitialLetter[initialLetter].push(location);
     } else {
-      return 1;
+      locationsByInitialLetter[initialLetter] = [location];
     }
   });
 
-  fs.writeFileSync(
-    "./server/tests/letter-l.json",
-    JSON.stringify(sortedLocations),
-    (err) => {
-      if (err) {
-        throw err;
+  return locationsByInitialLetter;
+};
+
+const writeLocationsToFiles = (locationsByLetter) => {
+  for (const [initialLetter, locations] of Object.entries(locationsByLetter)) {
+    const sortedLocations = locations.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
       } else {
-        console.log("file successfully created");
+        return 1;
       }
-    }
+    });
+
+    fs.writeFileSync(
+      `./server/tests/letter-${initialLetter}.json`,
+      JSON.stringify(sortedLocations),
+      (err) => {
+        if (err) {
+          throw err;
+        } else {
+          console.log("file successfully created");
+        }
+      }
+    );
+  }
+};
+
+const processLocationList = (inputFilePath) => {
+  const locationData = fs.readFileSync(inputFilePath);
+  const parsedLocationData = JSON.parse(locationData);
+
+  const processedLocations = getLocationsWithProcessedProperties(
+    parsedLocationData
   );
+
+  const locationsByInitialLetter = getLocationsByInitialLetter(
+    processedLocations
+  );
+
+  writeLocationsToFiles(locationsByInitialLetter);
 };
 
 export default processLocationList;
