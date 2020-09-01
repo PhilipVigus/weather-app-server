@@ -11,8 +11,8 @@ describe("locations route", () => {
     it("returns the locations starting with the specified letter", async () => {
       const res = await request(app).get("/locations/x");
       expect(res.body.length).toBe(878);
-      expect(res.body[0].name).toBe("Xagħra, Malta (14.26°, 36.05°)");
-      expect(res.body[877].name).toBe("Xıllı, Azerbaijan (49.10°, 39.43°)");
+      expect(res.body[0].name).toBe("Xagħra, Malta (36.05°, 14.26°)");
+      expect(res.body[877].name).toBe("Xıllı, Azerbaijan (39.43°, 49.10°)");
     });
 
     it("returns status 422 when the letter is invalid", async () => {
