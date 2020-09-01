@@ -1,9 +1,9 @@
-import fs from "fs";
+const fs = require("fs");
 
-const countryCodeData = fs.readFileSync("./server/data/countryCodes.json");
-const parsedCountryCodeData = JSON.parse(countryCodeData);
+const getCountryNameFromCode = (countryCode, inputFilePath) => {
+  const countryCodeData = fs.readFileSync(`${inputFilePath}countryCodes.json`);
+  const parsedCountryCodeData = JSON.parse(countryCodeData);
 
-const getCountryNameFromCode = (countryCode) => {
   for (let i = 0; i < parsedCountryCodeData.length; i += 1) {
     if (parsedCountryCodeData[i].code === countryCode) {
       return parsedCountryCodeData[i].name;
@@ -19,11 +19,11 @@ const getLatLonString = (coords) => {
   return `(${latitude}°, ${longitude}°)`;
 };
 
-const getLocationsWithProcessedProperties = (locations) => {
+const getLocationsWithProcessedProperties = (locations, inputFilePath) => {
   return locations.map((location) => {
     const stateString = location.state ? `${location.state}, ` : "";
     const latLonString = getLatLonString(location.coord);
-    const countryName = getCountryNameFromCode(location.country);
+    const countryName = getCountryNameFromCode(location.country, inputFilePath);
 
     return {
       id: location.id,
@@ -48,15 +48,36 @@ const getLocationsByInitialLetter = (locations) => {
   return locationsByInitialLetter;
 };
 
-const writeLocationsToFiles = (locationsByLetter, outputFilePath) => {
-  for (const [initialLetter, locations] of Object.entries(locationsByLetter)) {
-    const sortedLocations = locations.sort((a, b) => {
-      if (a.name < b.name) {
-        return -1;
-      } else {
-        return 1;
+const sortLocationsByName = (locations) => {
+  return locations.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
+};
+
+const writeLocationsToOneFile = (locations, outputFilePath) => {
+  const sortedLocations = sortLocationsByName(locations);
+
+  fs.writeFileSync(
+    `${outputFilePath}sortedFullData.json`,
+    JSON.stringify(sortedLocations),
+    (err) => {
+      if (err) {
+        throw err;
       }
-    });
+    }
+  );
+};
+
+const writeLocationsToFilesByInitialLetter = (
+  locationsByLetter,
+  outputFilePath
+) => {
+  for (const [initialLetter, locations] of Object.entries(locationsByLetter)) {
+    const sortedLocations = sortLocationsByName(locations);
 
     fs.writeFileSync(
       `${outputFilePath}letter-${initialLetter}.json`,
@@ -64,27 +85,31 @@ const writeLocationsToFiles = (locationsByLetter, outputFilePath) => {
       (err) => {
         if (err) {
           throw err;
-        } else {
-          console.log("file successfully created");
         }
       }
     );
   }
 };
 
-const processLocationList = (inputFilePath, outputFilePath) => {
-  const locationData = fs.readFileSync(inputFilePath);
+const processLocationList = (inputFilename, inputFilePath, outputFilePath) => {
+  const locationData = fs.readFileSync(`${inputFilePath}${inputFilename}`);
   const parsedLocationData = JSON.parse(locationData);
 
   const processedLocations = getLocationsWithProcessedProperties(
-    parsedLocationData
+    parsedLocationData,
+    inputFilePath
   );
+
+  writeLocationsToOneFile(processedLocations, outputFilePath);
 
   const locationsByInitialLetter = getLocationsByInitialLetter(
     processedLocations
   );
 
-  writeLocationsToFiles(locationsByInitialLetter, outputFilePath);
+  writeLocationsToFilesByInitialLetter(
+    locationsByInitialLetter,
+    outputFilePath
+  );
 };
 
-export default processLocationList;
+module.exports = processLocationList;
