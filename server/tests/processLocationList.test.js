@@ -5,11 +5,13 @@ import e from "express";
 describe("processLocationList", () => {
   it("outputs a file with the right filename", () => {
     processLocationList(
-      "./server/tests/fixtures/singleLocation.json",
+      "singleLocation.json",
+      "./server/tests/fixtures/",
       "./server/tests/"
     );
     expect(fs.existsSync("./server/tests/letter-l.json")).toBe(true);
     fs.unlinkSync("./server/tests/letter-l.json");
+    fs.unlinkSync("./server/tests/sortedFullData.json");
   });
 
   it("outputs a file with the right content for a single location", () => {
@@ -20,7 +22,8 @@ describe("processLocationList", () => {
       },
     ];
     processLocationList(
-      "./server/tests/fixtures/singleLocation.json",
+      "singleLocation.json",
+      "./server/tests/fixtures/",
       "./server/tests/"
     );
 
@@ -28,6 +31,7 @@ describe("processLocationList", () => {
     expect(JSON.parse(data)).toEqual(expectedResult);
 
     fs.unlinkSync("./server/tests/letter-l.json");
+    fs.unlinkSync("./server/tests/sortedFullData.json");
   });
 
   it("outputs a file with the right content for a several locations with the same initial letter and country", () => {
@@ -42,7 +46,8 @@ describe("processLocationList", () => {
       },
     ];
     processLocationList(
-      "./server/tests/fixtures/sameInitialAndCountry.json",
+      "sameInitialAndCountry.json",
+      "./server/tests/fixtures/",
       "./server/tests/"
     );
 
@@ -50,6 +55,7 @@ describe("processLocationList", () => {
     expect(JSON.parse(data)).toEqual(expectedResult);
 
     fs.unlinkSync("./server/tests/letter-l.json");
+    fs.unlinkSync("./server/tests/sortedFullData.json");
   });
 
   it("outputs a file with the right content for a several locations with the same initial letter and different countries", () => {
@@ -60,7 +66,7 @@ describe("processLocationList", () => {
       },
       {
         id: 833,
-        name: "London, United Kingdom (34.33°, 47.15°)",
+        name: "London, XF (34.33°, 47.15°)",
       },
       {
         id: 1234,
@@ -68,7 +74,8 @@ describe("processLocationList", () => {
       },
     ];
     processLocationList(
-      "./server/tests/fixtures/sameInitialDifferentCountries.json",
+      "sameInitialDifferentCountries.json",
+      "./server/tests/fixtures/",
       "./server/tests/"
     );
 
@@ -76,6 +83,7 @@ describe("processLocationList", () => {
     expect(JSON.parse(data)).toEqual(expectedResult);
 
     fs.unlinkSync("./server/tests/letter-l.json");
+    fs.unlinkSync("./server/tests/sortedFullData.json");
   });
 
   it("outputs a file with the right content for location with states", () => {
@@ -86,7 +94,8 @@ describe("processLocationList", () => {
       },
     ];
     processLocationList(
-      "./server/tests/fixtures/locationWithState.json",
+      "locationWithState.json",
+      "./server/tests/fixtures/",
       "./server/tests/"
     );
 
@@ -94,6 +103,7 @@ describe("processLocationList", () => {
     expect(JSON.parse(data)).toEqual(expectedResult);
 
     fs.unlinkSync("./server/tests/letter-l.json");
+    fs.unlinkSync("./server/tests/sortedFullData.json");
   });
 
   it("outputs multiple files when locations start with different initials", () => {
@@ -116,7 +126,8 @@ describe("processLocationList", () => {
     ];
 
     processLocationList(
-      "./server/tests/fixtures/differentInitials.json",
+      "differentInitials.json",
+      "./server/tests/fixtures/",
       "./server/tests/"
     );
     const lData = fs.readFileSync("./server/tests/letter-l.json");
@@ -128,5 +139,38 @@ describe("processLocationList", () => {
     fs.unlinkSync("./server/tests/letter-s.json");
 
     expect(JSON.parse(sData)).toEqual(expectedResultForSFile);
+
+    fs.unlinkSync("./server/tests/sortedFullData.json");
+  });
+
+  it("outputs a complete processed file", () => {
+    const expectedResult = [
+      {
+        id: 222,
+        name: "Lisbon, Portugal (26.33°, 56.41°)",
+      },
+      {
+        id: 833,
+        name: "London, United Kingdom (34.33°, 47.15°)",
+      },
+      {
+        id: 1234,
+        name: "Slough, United Kingdom (12.20°, 28.42°)",
+      },
+    ];
+
+    processLocationList(
+      "differentInitials.json",
+      "./server/tests/fixtures/",
+      "./server/tests/"
+    );
+
+    const data = fs.readFileSync("./server/tests/sortedFullData.json");
+    fs.unlinkSync("./server/tests/sortedFullData.json");
+
+    expect(JSON.parse(data)).toEqual(expectedResult);
+
+    fs.unlinkSync("./server/tests/letter-l.json");
+    fs.unlinkSync("./server/tests/letter-s.json");
   });
 });
