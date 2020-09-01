@@ -3,7 +3,7 @@
     "id": 1234,
     "name": "Loughborough",
     "state": "",
-    "country": "UK",
+    "country": "GB",
     "coord": {
       "lon": 28.42111,
       "lat": 12.1999
@@ -13,7 +13,7 @@
     "id": 833,
     "name": "London",
     "state": "",
-    "country": "UK",
+    "country": "GB",
     "coord": {
       "lon": 47.1511,
       "lat": 34.330502

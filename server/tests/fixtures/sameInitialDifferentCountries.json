@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1234,
+    "name": "Loughborough",
+    "state": "",
+    "country": "GB",
+    "coord": {
+      "lon": 28.42111,
+      "lat": 12.1999
+    }
+  },
+  {
+    "id": 833,
+    "name": "London",
+    "state": "",
+    "country": "GB",
+    "coord": {
+      "lon": 47.1511,
+      "lat": 34.330502
+    }
+  },
+  {
+    "id": 222,
+    "name": "Lisbon",
+    "state": "",
+    "country": "PT",
+    "coord": {
+      "lon": 56.41112,
+      "lat": 26.329
+    }
+  }
+]

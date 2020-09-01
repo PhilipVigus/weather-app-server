@@ -1,20 +1,32 @@
 import fs from "fs";
 
 const processLocationList = (inputFilePath) => {
-  const data = fs.readFileSync(inputFilePath);
-  const parsedData = JSON.parse(data);
-  console.log(parsedData);
+  const countryCodeData = fs.readFileSync("./server/data/countryCodes.json");
+  const parsedCountryCodeData = JSON.parse(countryCodeData);
 
-  const processedLocations = parsedData.map((location) => {
+  const getCountryNameFromCode = (countryCode) => {
+    for (let i = 0; i < parsedCountryCodeData.length; i += 1) {
+      if (parsedCountryCodeData[i].code === countryCode) {
+        return parsedCountryCodeData[i].name;
+      }
+    }
+
+    return countryCode;
+  };
+
+  const locationData = fs.readFileSync(inputFilePath);
+  const parsedLocationData = JSON.parse(locationData);
+
+  const processedLocations = parsedLocationData.map((location) => {
     return {
       id: location.id,
-      name: `${location.name}, United Kingdom (${location.coord.lat.toFixed(
+      name: `${location.name}, ${getCountryNameFromCode(
+        location.country
+      )} (${location.coord.lat.toFixed(2)}°, ${location.coord.lon.toFixed(
         2
-      )}°, ${location.coord.lon.toFixed(2)}°)`,
+      )}°)`,
     };
   });
-
-  console.log(processedLocations);
 
   const sortedLocations = processedLocations.sort((a, b) => {
     if (a.name < b.name) {

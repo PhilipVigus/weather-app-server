@@ -35,8 +35,31 @@ describe("processLocationList", () => {
         name: "Loughborough, United Kingdom (12.20°, 28.42°)",
       },
     ];
+    processLocationList("./server/tests/fixtures/sameInitialAndCountry.json");
+
+    const data = fs.readFileSync("./server/tests/letter-l.json");
+    expect(JSON.parse(data)).toEqual(expectedResult);
+
+    fs.unlinkSync("./server/tests/letter-l.json");
+  });
+
+  it("outputs a file with the right content for a several locations with the same initial letter and different countries", () => {
+    const expectedResult = [
+      {
+        id: 222,
+        name: "Lisbon, Portugal (26.33°, 56.41°)",
+      },
+      {
+        id: 833,
+        name: "London, United Kingdom (34.33°, 47.15°)",
+      },
+      {
+        id: 1234,
+        name: "Loughborough, United Kingdom (12.20°, 28.42°)",
+      },
+    ];
     processLocationList(
-      "./server/tests/fixtures/severalLocationsWithSameInitial.json"
+      "./server/tests/fixtures/sameInitialDifferentCountries.json"
     );
 
     const data = fs.readFileSync("./server/tests/letter-l.json");
