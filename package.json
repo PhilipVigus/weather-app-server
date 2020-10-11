@@ -12,7 +12,9 @@
     "prod": "NODE_ENV=production npm-run-all build server",
     "watch:dev": "nodemon",
     "test": "jest --watchAll",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "create:db": "node dist-server/data/createLocalDb.js",
+    "build:db": "npm-run-all build create:db"
   },
   "dependencies": {
     "@babel/cli": "^7.10.5",
