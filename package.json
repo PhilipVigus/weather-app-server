@@ -24,13 +24,11 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.1",
-    "jest": "^26.3.0",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.4",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
-    "sqlite3": "^5.0.0",
-    "supertest": "^4.0.2"
+    "sqlite3": "^5.0.0"
   },
   "babel": {
     "presets": [
@@ -61,5 +59,9 @@
     "modulePathIgnorePatterns": [
       "./dist-server"
     ]
+  },
+  "devDependencies": {
+    "jest": "^26.5.2",
+    "supertest": "^5.0.0"
   }
 }
