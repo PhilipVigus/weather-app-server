@@ -91,7 +91,7 @@ const insertLocation = (index) => {
       if (err) {
         console.log(`Error = ${err.message}`);
       } else {
-        if (index < numberOfLocations) {
+        if (index < numberOfLocations - 1) {
           insertLocation(index + 1);
         } else {
           db.close();
