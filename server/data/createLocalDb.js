@@ -1,5 +1,7 @@
-const sqlite3 = require("sqlite3").verbose();
-const fs = require("fs");
+import sqlite3 from "sqlite3";
+import fs from "fs";
+
+const verboseDb = sqlite3.verbose();
 
 const getCountryNameFromCode = (countryCode, inputFilePath) => {
   const countryCodeData = fs.readFileSync(`${inputFilePath}countryCodes.json`);
@@ -33,7 +35,7 @@ const getLocationsWithProcessedProperties = (locations, inputFilePath) => {
   });
 };
 
-const processLocationList = (inputFilename, inputFilePath, outputFilePath) => {
+const processLocationList = (inputFilename, inputFilePath) => {
   const locationData = fs.readFileSync(`${inputFilePath}${inputFilename}`);
   const parsedLocationData = JSON.parse(locationData);
 
@@ -45,13 +47,17 @@ const processLocationList = (inputFilename, inputFilePath, outputFilePath) => {
   return processedLocations;
 };
 
-const locations = processLocationList("locationList.json", "./", "./");
-
 let db;
+let locations;
+let locationsLength;
 
-const connect = () => {
-  db = new sqlite3.Database(
-    "./locations.db",
+const createDb = () => {
+  console.log(process.cwd());
+  locations = processLocationList("locationList.json", "./server/data/");
+  locationsLength = locations.length;
+
+  db = new verboseDb.Database(
+    "./server/data/locations.db",
     sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
     (err) => {
       if (err) {
@@ -74,15 +80,13 @@ function createTable() {
       if (err) {
         console.log(`Error = ${err.message}`);
       } else {
-        insertLocation(0);
+        insertLocationIntoTable(0);
       }
     }
   );
 }
 
-const numberOfLocations = locations.length;
-
-const insertLocation = (index) => {
+const insertLocationIntoTable = (index) => {
   console.log(index);
   db.run(
     "INSERT INTO locations (id, name) VALUES(?, ?)",
@@ -91,8 +95,8 @@ const insertLocation = (index) => {
       if (err) {
         console.log(`Error = ${err.message}`);
       } else {
-        if (index < numberOfLocations - 1) {
-          insertLocation(index + 1);
+        if (index < locationsLength - 1) {
+          insertLocationIntoTable(index + 1);
         } else {
           db.close();
         }
@@ -101,4 +105,4 @@ const insertLocation = (index) => {
   );
 };
 
-connect();
+createDb();
