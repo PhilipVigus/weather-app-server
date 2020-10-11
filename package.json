@@ -11,7 +11,7 @@
     "dev": "NODE_ENV=development npm-run-all build server",
     "prod": "NODE_ENV=production npm-run-all build server",
     "watch:dev": "nodemon",
-    "test": "jest",
+    "test": "jest --watchAll",
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
