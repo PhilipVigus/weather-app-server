@@ -52,7 +52,6 @@ let locations;
 let locationsLength;
 
 const createDb = () => {
-  console.log(process.cwd());
   locations = processLocationList("locationList.json", "./server/data/");
   locationsLength = locations.length;
 
@@ -70,10 +69,8 @@ const createDb = () => {
 };
 
 function createTable() {
-  console.log("here");
   db.run(
-    `
-    CREATE TABLE locations(
+    `CREATE TABLE locations(
       id INTEGER PRIMARY KEY NOT NULL,
       name VARCHAR(200) NOT NULL);`,
     (err) => {
