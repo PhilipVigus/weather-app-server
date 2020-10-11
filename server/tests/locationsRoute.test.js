@@ -16,7 +16,7 @@ describe("locations route", () => {
     });
 
     it("returns status 422 when the letter is invalid", async () => {
-      const res = await request(app).get("/locations/id");
+      const res = await request(app).get("/locations/*");
       expect(res.status).toBe(422);
     });
   });
@@ -27,13 +27,9 @@ describe("locations route", () => {
       expect(res.status).toBe(200);
     });
 
-    it("returns status 422 when the id is invalid", async () => {
-      const res = await request(app).get("/locations/names/abc");
+    it("handles ids that can't be found", async () => {
+      const res = await request(app).get("/locations/names/1");
       expect(res.status).toBe(422);
-    });
-
-    it("returns an error when the id is invalid", async () => {
-      const res = await request(app).get("/locations/names/abc");
       expect(res.body).toEqual({ error: "location id not found" });
     });
 
