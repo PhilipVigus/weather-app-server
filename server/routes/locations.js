@@ -3,16 +3,17 @@ import sqlite3 from "sqlite3";
 
 const router = express.Router();
 const verboseDb = sqlite3.verbose();
+const DB_LOCATION = "./server/data/locations.db";
 
 let db;
 
 router.get("/:letter", (req, res, next) => {
-  handleGetAllLocationsWithInitial(req.params.letter, res);
+  handleGetAllLocationsWithSameInitialRequest(req.params.letter, res);
 });
 
-const handleGetAllLocationsWithInitial = (letter, res) => {
+const handleGetAllLocationsWithSameInitialRequest = (letter, res) => {
   db = new verboseDb.Database(
-    "./server/data/locations.db",
+    DB_LOCATION,
     sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
     (err) => {
       if (err) {
@@ -49,12 +50,12 @@ const sendLocationsWithInitial = (rows, res) => {
 };
 
 router.get("/names/:id", (req, res, next) => {
-  handleGetNameFromId(parseInt(req.params.id), res);
+  handleGetLocationNameFromIdRequest(parseInt(req.params.id), res);
 });
 
-const handleGetNameFromId = (id, res) => {
+const handleGetLocationNameFromIdRequest = (id, res) => {
   db = new verboseDb.Database(
-    "./server/data/locations.db",
+    DB_LOCATION,
     sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
     (err) => {
       if (err) {
