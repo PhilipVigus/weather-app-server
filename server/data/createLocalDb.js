@@ -51,12 +51,12 @@ let db;
 let locations;
 let locationsLength;
 
-const createDb = () => {
-  locations = processLocationList("locationList.json", "./server/data/");
+const createLocalDb = (path, inputFilename, outputFilename) => {
+  locations = processLocationList(inputFilename, path);
   locationsLength = locations.length;
 
   db = new verboseDb.Database(
-    "./server/data/locations.db",
+    `${path}${outputFilename}`,
     sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
     (err) => {
       if (err) {
@@ -102,4 +102,4 @@ const insertLocationIntoTable = (index) => {
   );
 };
 
-createDb();
+export default createLocalDb;

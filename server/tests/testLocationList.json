@@ -1,0 +1,22 @@
+[
+  {
+    "id": 30485,
+    "name": "Dahasuways",
+    "state": "",
+    "country": "YE",
+    "coord": {
+      "lon": 50.729439,
+      "lat": 15.72389
+    }
+  },
+  {
+    "id": 30616,
+    "name": "Judaydah",
+    "state": "FF",
+    "country": "XX",
+    "coord": {
+      "lon": 45.299622,
+      "lat": 15.07512
+    }
+  }
+]
